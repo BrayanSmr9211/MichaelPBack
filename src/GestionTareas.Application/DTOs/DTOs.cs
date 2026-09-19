@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using GestionTareas.Domain.Enums;
 
 namespace GestionTareas.Application.DTOs;
@@ -64,4 +64,38 @@ public record TareaResponse(
 public record TareaFilterRequest(
     int? UsuarioId,
     EstadoTarea? Estado
+);
+
+// -- Auth ---------------------------------------------------------------
+
+public record RegisterRequest(
+    [Required(ErrorMessage = "El nombre es obligatorio")]
+    [StringLength(100, MinimumLength = 2)]
+    string Nombre,
+
+    [Required(ErrorMessage = "El email es obligatorio")]
+    [EmailAddress]
+    [StringLength(200)]
+    string Email,
+
+    [Required(ErrorMessage = "La contrasena es obligatoria")]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "La contrasena debe tener minimo 6 caracteres")]
+    string Password
+);
+
+public record LoginRequest(
+    [Required(ErrorMessage = "El email es obligatorio")]
+    [EmailAddress]
+    string Email,
+
+    [Required(ErrorMessage = "La contrasena es obligatoria")]
+    string Password
+);
+
+public record AuthResponse(
+    string Token,
+    string Nombre,
+    string Email,
+    string Rol,
+    DateTime Expiracion
 );
